@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Հարսանյաց հրավիրագիր</title>
+  <link rel="website icon" type="png"
+  href="https://sotni.ru/wp-content/uploads/2023/08/krasivoe-serdtse-3.webp">
+  <!-- Оставляем стили без изменений -->
+  <!-- ... CSS Стили ... -->
+   <link rel="stylesheet"
+   href="style.css">
+</head>
+<body>
+  <div class="background"></div>
+
+  <div class="content">
+    <!-- Օր և անուններ -->
+    <div class="block">
+      <div class="title">ՀԱՐՍԱՆՅԱՑ ՕՐ</div>
+      <div class="rings">💍💍</div>
+      <div class="names">Արտակ և Էմմա</div>
+      <div class="line"></div>
+      <div class="date">27.06.2025</div>
+    </div>
+
+    <!-- Հրավիրագիր -->
+    <div class="block">
+      <div class="header">Սիրելի հյուրեր</div>
+      <div class="text">
+        Սիրով հրավիրում ենք Ձեզ<br>
+        կիսել մեզ հետ<br>
+        մեր կյանքի ամենակարևոր օրը։<br>
+        Սպասում ենք Ձեզ մեր հարսանիքին։
+      </div>
+    </div>
+
+    <!-- Ծրագիր -->
+    <div class="block">
+      <div class="section">
+        <p class="time">11:00</p>
+        <p class="event-title">Հարսի տուն</p>
+      </div>
+      <div class="section">
+        <p class="time">13:30</p>
+        <p class="event-title">ՀԱՐՍԱՆՅԱՑ ԾԱՌԱՅՈՒԹՅՈՒՆ</p>
+        <p class="location"><strong>Amenaprkich եկեղեցի</strong><br>Գյումրի 21</p>
+        <a href="https://maps.google.com/?q=Церковь Amenaprkich, Гюмри" target="_blank" class="btn">ԻՆՉՊԵՍ ՀԱՍՆԵԼ</a>
+      </div>
+      <div class="section">
+        <p class="time">16:30</p>
+        <p class="event-title">ՀԱՐՍԱՆՅԱՑ ՀԱՆԴԻՍԱՎՈՐ ՄԱՍ</p>
+        <p class="location"><strong>Victoria Հարսանյաց Սրահ</strong><br>Գյումրի</p>
+        <a href="https://maps.google.com/?q=Victoria Wedding Hall, Гюмри" target="_blank" class="btn">ԻՆՉՊԵՍ ՀԱՍՆԵԼ</a>
+      </div>
+    </div>
+
+    <!-- Հետհաշվարկ -->
+    <div class="block" id="countdown-block">
+      <div class="countdown-title">Մինչ հարսանիքը մնացել է՝</div>
+      <div class="countdown-container">
+        <div class="countdown-item">
+          <div class="number" id="days">00</div>
+          <div class="label">օր</div>
+        </div>
+        <div class="countdown-item">
+          <div class="number" id="hours">00</div>
+          <div class="label">ժամ</div>
+        </div>
+        <div class="countdown-item">
+          <div class="number" id="minutes">00</div>
+          <div class="label">րոպե</div>
+        </div>
+        <div class="countdown-item">
+          <div class="number" id="seconds">00</div>
+          <div class="label">վայրկյան</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Հաստատում -->
+    <div class="block">
+      <h2>Հաստատեք Ձեր մասնակցությունը</h2>
+      <form id="rsvpForm" onsubmit="sendToWhatsApp(); return false;">
+        <input type="text" id="name" placeholder="Ձեր անունը" required />
+        <input type="number" id="guests" placeholder="Հյուրերի քանակը" min="1" required />
+        <button type="submit" class="rsvp-button">Ուղարկել</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JS (неизменный, кроме текста в сообщении WhatsApp) -->
+  <script>
+    const weddingDate = new Date("2025-06-27T00:00:00").getTime();
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+
+      if (distance < 0) {
+        document.getElementById("countdown-block").innerHTML = "<div class='countdown-title'>Հարսանիքն արդեն տեղի է ունեցել։ 💍</div>";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").textContent = String(days).padStart(2, "0");
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+    }, 1000);
+
+    function sendToWhatsApp() {
+      const name = document.getElementById("name").value;
+      const guests = document.getElementById("guests").value;
+      const message = `Բարև ձեզ։ Իմ անունն է ${name}։ Ես կմասնակցեմ հարսանիքին ${guests} հյուր(եր)ով։ 💍`;
+      const url = `https://wa.me/37496714795?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.block').forEach(block => {
+      observer.observe(block);
+    });
+  </script>
+</body>
+</html>
